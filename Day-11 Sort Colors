@@ -1,0 +1,36 @@
+class Solution {
+    
+    public void sortColors(int[] nums) {
+            
+    //Approach one -- (Counting Sort :  Double pass}
+        int[] colorCount = new int[3];
+        for(int num : nums) {
+           colorCount[num]++;
+        }
+        int i = 0;
+        for(int index = 0; index < colorCount.length; index++) {
+            int count = colorCount[index];
+            while(count > 0){
+                nums[i++] = index;
+                count--;
+            }
+        }
+    }
+}
+
+class Solution {
+    public void sortColors(int[] nums) {
+        int start=0,end=nums.length-1,currentPosition=0;
+        
+        while(currentPosition<=end){
+            if(nums[currentPosition]==0) swap(nums,start++,currentPosition++);
+            else if(nums[currentPosition]==2) swap(nums,currentPosition,end--);
+            else currentPosition++;
+    }
+    }
+    public void swap(int[] nums,int start,int end){
+            int temp=nums[start];
+                nums[start]=nums[end];
+                nums[end]=temp;
+    }
+}
