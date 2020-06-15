@@ -1,0 +1,81 @@
+class Solution {
+    
+    int min=Integer.MAX_VALUE;
+   
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        int[][] dp=new int[n][n];
+        
+        for(int[] flight:flights){
+            dp[flight[0]][flight[1]]=flight[2];
+        }
+        
+        dfs(dp,src,dst,K,0);
+        
+        return min==Integer.MAX_VALUE?-1:min;
+    }
+    
+    void dfs(int[][] dp,int src,int dst,int k,int price){
+        if(src==dst){
+            min=Math.min(min,price);
+            return;
+        }
+
+        if(k<0 || price>=min){
+            return;
+        }
+
+        for(int i=0;i<dp.length;i++){
+            if(dp[src][i]!=0 && price+dp[src][i]<min){
+                dfs(dp,i,dst,k-1,price+dp[src][i]);
+            }
+        }
+    }
+}
+
+class Solution {
+    
+    int min=Integer.MAX_VALUE;
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        int[][] dp=new int[n][n];
+        
+        for(int[] flight:flights){
+            dp[flight[0]][flight[1]]=flight[2];
+        }
+        
+        Queue<int[]> q=new LinkedList<>();
+        
+        q.offer(new int[]{src,0});
+        
+        int[] visit = new int[n];
+        Arrays.fill(visit, Integer.MAX_VALUE);
+        int min = Integer.MAX_VALUE;
+        
+        while(K>=0 && !q.isEmpty()){
+            
+            K--;
+            int size=q.size();
+            
+            for(int i=0;i<size;i++){
+                int[] pair=q.poll();
+                int source=pair[0];
+                int price=pair[1];
+                int[] next = dp[source];
+                
+                for(int d=0;d<n;d++){
+                    if(next[d]!=0){
+                        int p=next[d]+price;
+                        if(d!=dst && visit[d] > p ){
+                            q.offer(new int[]{d,p});
+                            visit[d]=p;
+                        }
+                        else if(d==dst){
+                            min=Math.min(min,p);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return min==Integer.MAX_VALUE?-1:min;
+    }
+}
