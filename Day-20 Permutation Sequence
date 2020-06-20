@@ -1,0 +1,26 @@
+class Solution {
+    public String getPermutation(int n, int k) {
+        int[] fact = new int[n+1];
+        List<Integer> number =new ArrayList<>();
+        fact[0] = fact[1] = 1;
+        
+        for (int i = 2; i < fact.length; i++)
+            fact[i] = fact[i-1] * i;
+        for (int i = 1; i <= n; i++)
+           number.add(i);
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while (n > 0){
+            int index = k/fact[n-1];
+            if(k%fact[n-1]==0){
+                index--;
+            }
+            sb.append(number.get(index));
+            number.remove(index);
+            k = k % fact[n-1] == 0 ? fact[n-1] : k % fact[n-1];
+            n--;
+        }
+        return sb.toString();
+    }
+}
