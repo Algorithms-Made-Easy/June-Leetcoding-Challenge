@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        
+        return 1+ countNodes(root.left)+ countNodes(root.right);
+    }
+}
+
+class Solution {
+    public int countNodes(TreeNode root) {
+       if(root==null) return 0;
+        int d=computeDepth(root);
+        
+        if(d==0){
+            return 1;
+        }
+        
+        int nodesAtLastDepth=(int) Math.pow(2,d)-1;
+        
+        int left=1, right=nodesAtLastDepth+1;
+        int mid;
+        while(left<right){
+            mid=left+(right-left)/2;
+            if(exists(mid,d,root)) left=mid+1;
+            else right=mid;
+        }
+        
+        return nodesAtLastDepth + left;
+    }
+    
+    
+    boolean exists(int val,int depth,TreeNode node){
+        int left=0,right=(int) Math.pow(2,depth)-1;
+        int mid;
+        
+        for(int i=0;i<depth;++i){
+            mid=left+(right-left)/2;
+            
+            if(val<=mid){
+                node=node.left;
+                right=mid;
+            }
+            else{
+                node=node.right;
+                left=mid+1;
+            }
+        }
+        
+        return node!=null;
+    }
+    
+    int computeDepth(TreeNode root){
+        int d=0;
+        while(root.left!=null){
+            root=root.left;
+            d++;
+        }
+        return d;
+    }
+}
