@@ -1,0 +1,50 @@
+class Solution {
+    int[] total;
+    public int numTrees(int n) {
+        total=new int[n+1];
+        total[0]=1;
+        total[1]=1;
+        return gen(n);
+    }
+    
+    int gen(int n){
+        if(total[n]>0){
+            return total[n];
+        }
+        for(int i=0;i<n;i++){
+            total[n]+= (gen(i) * gen (n-i-1));
+        }
+        return total[n];
+    }
+}
+
+class Solution {
+    int[] total;
+    public int numTrees(int n) {
+        total=new int[n+1];
+        total[0]=1;
+        total[1]=1;
+        
+        for(int i=2;i<=n;i++){
+            for(int j=1;j<=i;j++){
+                total[i]+=(total[j-1]*total[i-j]);
+            }
+        }
+        return total[n];
+    }
+}
+
+class Solution {
+    public int numTrees(int n) {
+        
+        long c=1;
+        
+        for(int i=1;i<n;i++){
+           
+            c= c * 2 * (2*i + 1)/(i+2);
+            System.out.println(c);
+        }
+                
+        return (int) c;
+    }
+}
